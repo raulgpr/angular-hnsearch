@@ -1,0 +1,40 @@
+
+<div style="margin-top:40px;padding-top:40px;" class="card card-body mb-3">
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-7">
+          <input type="text" class="form-control" placeholder="Search articles..." name="searchText" #searchText>
+        </div>
+        <div class="col-md-1">
+            <button (click)="searchArticles(searchText.value)" type="button" class="btn btn-warning"><i class="fa fa-search"></i>  Search</button>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+    </div>
+</div>
+
+<div *ngIf="loaded">
+  <p>Articles found: {{articles.nbHits}}</p>
+
+  <div class="card" *ngFor="let article of articles.hits">
+    <div class="card-body">
+        <h4><a href={{article.url}} target='_blank'>{{article.title}}</a> <i class="fa fa-external-link"></i></h4>
+        <p>Author: {{article.author}} ,  Created: {{ article.created_at | date:"longDate"}}</p>
+    </div>
+  </div>
+
+  <div *ngIf="!loaded">
+    <h5>Loading...</h5>
+  </div>
+
+  <div style="padding-top:20px; padding-bottom:50px" class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-1"><button (click)="searchArticlesPagination((articles.page-1))" type="button" class="btn btn-warning" [disabled]="articles.nbPages==1||articles.page==0"><i class="fa fa-chevron-left"></i> Previous</button></div>
+      <div class="col-md-2" style="text-align: center;">Page {{ (articles.page+1) }} of {{ articles.nbPages }}</div>
+      <div class="col-md-1"><button (click)="searchArticlesPagination((articles.page+1))" type="button" class="btn btn-warning" [disabled]="articles.nbPages==1||articles.page==(articles.nbPages-1)">Next <i class="fa fa-chevron-right"></i></button></div>
+      <div class="col-md-4"></div>
+  </div>
+
+</div>
+
